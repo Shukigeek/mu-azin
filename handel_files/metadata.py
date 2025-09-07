@@ -7,7 +7,7 @@ class MetaData:
     def observing_metadata(self):
         # Get the stat_result object
         file_stats = self.file_path.stat()
-        return {"File name":{self.file_path.split("/")[-1]},
+        return {"File name":self.file_path.name,
                 "File size": f"{file_stats.st_size} bytes",
                 "Last modified": f"{datetime.datetime.fromtimestamp(file_stats.st_mtime)}",
                 "Creation/Metadata change time": f"{datetime.datetime.fromtimestamp(file_stats.st_ctime)}",
@@ -15,5 +15,5 @@ class MetaData:
                 }
 
 if __name__ == '__main__':
-    md = MataData("podcasts/download (1).wav")
+    md = MetaData("../podcasts/download (1).wav")
     print(md.observing_metadata())
