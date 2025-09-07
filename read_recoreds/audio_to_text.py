@@ -8,6 +8,7 @@ class AudioToText:
         os.environ["PATH"] += os.pathsep + r"C:\ffmpeg-8.0-essentials_build\bin"
         self.path = path
     def convert_audio(self):
+        #converting audio to text
         model = whisper.load_model("small")
         result = model.transcribe(self.path)
         return result["text"]
