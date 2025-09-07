@@ -31,3 +31,9 @@ class Connection:
         if self.client:
             self.client.close()
             print("MongoDB connection closed")
+
+
+if __name__ == '__main__':
+
+    mongo_client = Connection()
+    mongo_client.connect()
