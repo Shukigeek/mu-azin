@@ -1,5 +1,5 @@
 from elastic.elastic_base import ElasticBase
-from mongo.write_to_mongo import WriteToMongo
+from mongo.write_read_mongo import AudioToMongo
 from kafka_pub_sub.sub.consumer import Consumer
 from hashlib import sha256
 from logger.logger import Logger
@@ -15,7 +15,7 @@ class Manager:
         self.topic = topic
         self.consumer = Consumer(self.topic)
         self.es = ElasticBase()
-        self.mongo = WriteToMongo()
+        self.mongo = AudioToMongo()
     def read_from_kafka_saving_elastic_mongo(self):
         logger.info("Reading from Kafka saving to elastic and to mongo")
         self.es.wait_for_es()

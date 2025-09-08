@@ -6,10 +6,10 @@ logger = Logger.get_logger()
 class Connection:
     def __init__(self):
         logger.info("initializing mongo client")
-        self.host = os.getenv("MONGO_HOST")
-        self.port = os.getenv("MONGO_PORT")
-        self.db = os.getenv("MONGO_DB")
-        self.auth = os.getenv("MONGO_AUTH_DB")
+        self.host = os.getenv("MONGO_HOST","mongodb")
+        self.port = os.getenv("MONGO_PORT","27017")
+        self.db = os.getenv("MONGO_DB","mu'azins")
+        self.auth = os.getenv("MONGO_AUTH_DB","admin")
         self.client = None
 
     def connect(self):

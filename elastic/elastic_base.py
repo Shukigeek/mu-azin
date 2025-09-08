@@ -33,4 +33,12 @@ class ElasticBase:
         logger.info(f"refreshing index in elasticsearch")
         self.es.indices.refresh(index=self.index)
 
-
+    def update_doc(self,document_id,update_body):
+        try:
+            response = self.es.update(index=self.index, id=document_id, body=update_body)
+            logger.info(f"Document with ID {document_id} updated successfully.")
+            logger.info(f"Response from elasticsearch: {response}")
+        except Exception as e:
+            logger.error(f"Error updating document: {e}")
+    def return_all_docs(self):
+        return self.es.search(index=self.index)
