@@ -1,16 +1,20 @@
 import os
 from pymongo import MongoClient, errors
+from logger.logger import Logger
+logger = Logger.get_logger()
 
 class Connection:
     def __init__(self):
-        self.host = os.getenv("MONGO_HOST", "localhost")
-        self.port = os.getenv("MONGO_PORT", "27017")
-        self.db = os.getenv("MONGO_DB","mu'azins")
-        self.auth = os.getenv("MONGO_AUTH_DB","admin")
+        logger.info("initializing mongo client")
+        self.host = os.getenv("MONGO_HOST")
+        self.port = os.getenv("MONGO_PORT")
+        self.db = os.getenv("MONGO_DB")
+        self.auth = os.getenv("MONGO_AUTH_DB")
         self.client = None
 
     def connect(self):
         try:
+            logger.info("connecting to mongo db")
             self.client = MongoClient(
                 host=self.host,
                 port=int(self.port),
@@ -18,22 +22,16 @@ class Connection:
                 serverSelectionTimeoutMS=5000
             )
             self.client.server_info()
-            print("MongoDB connected successfully")
+            logger.info("MongoDB connected successfully")
             return self.client
         except errors.ServerSelectionTimeoutError as e:
-            print("Failed to connect to MongoDB:", e)
+            logger.error("Failed to connect to MongoDB:", e)
             return None
         except errors.OperationFailure as e:
-            print("Authentication failed:", e)
+            logger.error("Authentication failed:", e)
             return None
 
     def close(self):
         if self.client:
             self.client.close()
-            print("MongoDB connection closed")
-
-
-if __name__ == '__main__':
-
-    mongo_client = Connection()
-    mongo_client.connect()
+            logger.info("MongoDB connection closed")
