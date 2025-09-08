@@ -104,6 +104,20 @@ services:
     volumes:
       - C:/podcasts:/app/podcasts
 
+
+
+  stt:
+    build:
+      context: .
+      dockerfile: STT/Dockerfile
+    ports:
+      - "8003:8003"
+    depends_on:
+      - muazin_phase1
+      - muazin_phase2
+    networks:
+      - final-test
+
 volumes:
   mongo_data:
 

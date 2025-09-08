@@ -1,5 +1,3 @@
-from io import BytesIO
-
 import whisper
 import os
 from logger.logger import Logger
