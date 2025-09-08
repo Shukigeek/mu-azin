@@ -6,9 +6,8 @@ logger = Logger.get_logger()
 
 
 class ElasticBase:
-    def __init__(self, host=None, index_name="mu-azin"):
-        logger.info(f"ElasticBase host: {host or "http://localhost:9200"}")
-        self.es = Elasticsearch(os.getenv("ELASTICSEARCH_HOSTS", host or "http://localhost:9200"))
+    def __init__(self, index_name="mu-azin"):
+        self.es = Elasticsearch(f"http://{os.getenv('ES_HOSTS')}:9200")
         logger.info(f"ElasticBase index name: {index_name}")
         self.index = index_name
 

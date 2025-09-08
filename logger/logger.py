@@ -5,7 +5,7 @@ import os
 class Logger:
     _logger = None
     @classmethod
-    def get_logger(cls, name="muazin_log", es_host=os.getenv("ELASTICSEARCH_HOSTS"),index="logs", level=logging.DEBUG):
+    def get_logger(cls, name="muazin_log", es_host=os.getenv("ELASTICSEARCH_HOSTS","http://elasticsearch:9200"),index="logs", level=logging.DEBUG):
         if cls._logger:
             return cls._logger
         logger = logging.getLogger(name)

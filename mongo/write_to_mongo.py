@@ -2,7 +2,7 @@ from mongo.mongo_dal import Connection
 from bson.binary import Binary
 from logger.logger import Logger
 logger = Logger.get_logger()
-
+import os
 
 class WriteToMongo:
     def __init__(self):
@@ -10,7 +10,7 @@ class WriteToMongo:
         self.conn = Connection()
         self.client = self.conn.connect()
         logger.info("connected to mongodb database = {}".format(self.conn.db))
-        self.db = self.client[self.conn.db]
+        self.db = self.client[os.getenv("MONGO_DB","mu'azins")]
         logger.info("creating collection 'audio files'")
         self.collection = self.db["audio files"]
     def write(self, path,name,ID):
