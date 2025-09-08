@@ -71,6 +71,10 @@ services:
       dockerfile: handel_files/Dockerfile
     environment:
       - KAFKA_BROKER=kafka:9092
+      - FILE_PATH=/app/podcasts
+      - TOPIC=podcasts
+    volumes:
+      - C:/podcasts:/app/podcasts
     ports:
       - "8001:8001"
     depends_on:
@@ -83,13 +87,12 @@ services:
       context: .
       dockerfile: handling_topics/Dockerfile
     environment:
-      - KAFKA_BROKER=kafka:9092
-      - MONGO_HOST=localhost
-      - MONGO_PORT=27017
-      - MONGO_DB=mu'azins
-      - MONGO_AUTH_DB=admin
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-
+      KAFKA_BROKER: "kafka:9092"
+      MONGO_HOST: "mongodb"
+      MONGO_PORT: "27017"
+      MONGO_DB: "mu'azins"
+      MONGO_AUTH_DB: "admin"
+      ES_HOSTS: "elasticsearch"
     ports:
       - "8002:8002"
     depends_on:
@@ -99,7 +102,7 @@ services:
     networks:
       - final-test
     volumes:
-      - C:/:/app/C
+      - C:/podcasts:/app/podcasts
 
 volumes:
   mongo_data:

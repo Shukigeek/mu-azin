@@ -28,7 +28,7 @@ class Manager:
                 name = event.value["meta data"]["File name"]
                 logger.info(f"name: {name}")
                 logger.info("creating a unique id by hashing the name")
-                hash_id = sha256(name.encode()).hexdigest()
+                hash_id = sha256(name.encode()).hexdigest()[:8]
                 logger.info(f"hash_id: {hash_id}")
                 logger.info(f"indexing the value of the data that came from kafka")
                 self.es.index_doc(event.value["meta data"],hash_id)
@@ -37,7 +37,7 @@ class Manager:
                     self.mongo.write(event.value["path"],name,hash_id)
                 except Exception as e:
                     logger.error(f"mongo can't store that data: {e}")
-                    # print(f"mongo can't store that data: {e}")
+
 
 
 

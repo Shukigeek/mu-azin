@@ -9,5 +9,6 @@ COPY handling_topics /app/handling_topics
 COPY kafka_pub_sub /app/kafka_pub_sub
 COPY mongo /app/mongo
 COPY elastic /app/elastic
+COPY logger /app/logger
 
 CMD ["python","-m", "handling_topics.main"]
