@@ -1,5 +1,5 @@
 services:
-  es:
+  elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
     container_name: es
     environment:
@@ -16,11 +16,10 @@ services:
     container_name: kibana
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=kibana_system
     ports:
       - "5601:5601"
     depends_on:
-      - es
+      - elasticsearch
     networks:
       - final-test
 
@@ -50,7 +49,7 @@ services:
     ports:
       - "9000:9000"
     environment:
-      - KAFKA_BROKERCONNECT=kafka:9092
+      - KAFKA_BROKER=kafka:9092
     depends_on:
       - kafka
     networks:
@@ -89,12 +88,14 @@ services:
       - MONGO_PORT=27017
       - MONGO_DB=mu'azins
       - MONGO_AUTH_DB=admin
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+
     ports:
       - "8002:8002"
     depends_on:
       - kafka
       - mongodb
-      - es
+      - elasticsearch
     networks:
       - final-test
     volumes:
