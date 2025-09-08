@@ -16,8 +16,8 @@ class STT:
     def speach_to_text(self):
         all_docs = []
         for record in self.es.return_all_docs():
-            id = record["id"]
-            data = record["file name"]
+            id = record["hits"]["hits"]["id"]
+            data = record["hits"]["hits"]["file name"]
             logger.info("connect to whisper")
             whisper = AudioToText(data)
             logger.info("converting audio to text")

@@ -18,4 +18,4 @@ class UpdateElastic:
                 self.es.update_doc(doc["id"], doc["text"])
                 logger.info(f"{doc['id']} is updated")
         except Exception as e:
-            logger.error(f"cnat update elastic: {e}")
+            logger.error(f"can not update elastic: {e}")
