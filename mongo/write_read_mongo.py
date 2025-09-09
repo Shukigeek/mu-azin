@@ -4,7 +4,7 @@ from logger.logger import Logger
 logger = Logger.get_logger()
 import os
 
-class WriteToMongo:
+class AudioToMongo:
     def __init__(self):
         logger.info("connecting to mongodb")
         self.conn = Connection()
@@ -23,5 +23,9 @@ class WriteToMongo:
         document = {"_id":ID,"filename": name, "data": Binary(wav_data)}
         self.collection.insert_one(document)
         logger.info("file {name} inserted to mongodb".format(name=name))
+    def read_all_from_mongo(self):
+        logger.info("reading all audio files from mongodb")
+        all_docs = self.collection.find({})
+        return all_docs
 
 
