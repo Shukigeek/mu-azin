@@ -1,4 +1,4 @@
-from STT.spech_to_text import STT
+from STT.read_from_mongo import STT
 from elastic.elastic_base import ElasticBase
 from logger.logger import Logger
 logger = Logger.get_logger()

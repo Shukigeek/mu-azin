@@ -1,6 +1,10 @@
-mu'azin  project
+## mu'azin  project
 
-phase1
+# handel files
+
+``
+runs from the docker file in handel files directory
+``
 
 a pipeline project that 
 get a wav files of podcasts
@@ -13,7 +17,10 @@ in a specific topic
 all of that is warp in a 1 container by docker
 
 
-phase2 
+# handling topics
+``
+runs from docker file in handling topics dirctory
+``
  
 kafka consumer getting the massages by listening (forever)
 to the topic in kafka 
@@ -31,14 +38,46 @@ in a collection called audio files
 and all of that it also warp in a container by docker
 
 
-Explosive mission
+## Explosive mission
+
+``
+all loggs in code is from the logger dyrctory
+``
 
 logging added to all the cone line and functions
 and the logging is also saved to index log in 
 elasticsearch
 
 
-phase3
+## speach to text
+
+``
+runs from the docker file in stt dirctory
+``
+
+the app is a server runs by docker container 
+thet takes all id + data (bytes) 
+from mongodb and converting it to a readable text 
+than updating elastic search with another filed to
+by index (this is of course the must important filed)
+by its unique ID
+
+
+the reason I chose to do it in another server that takes 
+much longer process and resources and not to do so 
+while consuming the data to convert it to text
+
+it because for my understanding kafka is a high speed
+stream of data and I do not want to slow the all process
+to convert to text that takes vary long time 
+and also if the converting isn't working 
+at the all metadata + raw audio (in byte) is saved to   
+mongodb in vary high speed past
+and I can convert all audio to get the text
+after a while that all is working
+this is inspired by the Asynchrony idea!!
+
+
 
 the file system 
 
@@ -66,6 +105,14 @@ mu'azins/
 ├── mongo/ 
 │ ├── mongo_dal.py
 │ └── write_to_mongo.py
+│
+├── STT/
+│ ├── read_from_mongo.py
+│ ├── audio_to_text.py
+│ ├── update_elastic.py
+│ ├── main.py
+│ ├── Dockerfile
+│ └── requirements.txt
 │
 ├── docker-compose.yml
 └── README.md

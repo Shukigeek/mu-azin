@@ -1,3 +1,4 @@
 pymongo~=4.14.1
 elasticsearch~=8.15.0
-openai-whisper
+numpy~=2.2.6
+SpeechRecognition~=3.14.3

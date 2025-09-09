@@ -65,7 +65,7 @@ services:
     networks:
       - final-test
 
-  muazin_phase1:
+  handel_files:
     build:
       context: .
       dockerfile: handel_files/Dockerfile
@@ -82,7 +82,7 @@ services:
     networks:
       - final-test
 
-  muazin_phase2:
+  handel_topics:
     build:
       context: .
       dockerfile: handling_topics/Dockerfile
@@ -113,8 +113,8 @@ services:
     ports:
       - "8003:8003"
     depends_on:
-      - muazin_phase1
-      - muazin_phase2
+      - handel_files
+      - handel_topics
     networks:
       - final-test
 
