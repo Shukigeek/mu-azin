@@ -18,6 +18,11 @@ class AudioToMongo:
     def read_all_from_mongo(self):
         logger.info("reading all audio files from mongodb")
         all_docs = self.collection.find({})
-        return all_docs
+        return list(all_docs)
+
+
+if __name__ == '__main__':
+    a = AudioToMongo()
+    print(a.read_all_from_mongo())
 
 

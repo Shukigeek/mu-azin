@@ -7,6 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY STT /app/STT
 COPY mongo /app/mongo
+COPY kafka_pub_sub /app/kafka_pub_sub
 COPY elastic /app/elastic
 COPY logger /app/logger
 

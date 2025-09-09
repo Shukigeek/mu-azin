@@ -12,7 +12,7 @@ class Json:
     def return_json(self):
         logger.info("creating json file with metadata and absolute path")
         return {"meta data":self.metadata,
-                "path":self.path}
+                "path":str(self.path)}
 
 
 

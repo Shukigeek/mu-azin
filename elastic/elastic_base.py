@@ -7,7 +7,7 @@ logger = Logger.get_logger()
 
 class ElasticBase:
     def __init__(self, index_name="mu-azin"):
-        self.es = Elasticsearch(f"http://{os.getenv('ES_HOSTS')}:9200")
+        self.es = Elasticsearch(f"http://{os.getenv('ES_HOSTS','elasticsearch')}:9200")
         self.index = index_name
 
     def wait_for_es(self):
@@ -29,11 +29,15 @@ class ElasticBase:
         self.es.index(index=self.index, id=ID,body=doc)
         self.es.indices.refresh(index=self.index)
 
-    def update_doc(self,document_id,update_body):
+    def update_doc_by_id(self,document_id,update_body):
         try:
-            response = self.es.update(index=self.index, id=document_id, body=update_body)
+            self.es.update(index=self.index, id=document_id, body=update_body)
             logger.info(f"Document with ID {document_id} updated successfully.")
         except Exception as e:
             logger.error(f"Error updating document: {e}")
     def return_all_docs(self):
         return self.es.search(index=self.index)
+    def search_kay_word(self):
+        pass
+    def search_sentence(self):
+        pass

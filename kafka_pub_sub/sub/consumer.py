@@ -8,7 +8,7 @@ class Consumer:
     def __init__(self, topic):
         logger.info('Consumer init')
         logger.info("kafka_broker_topic: {}".format(topic))
-        kafka_broker = os.getenv("KAFKA_BROKER")
+        kafka_broker = os.getenv("KAFKA_BROKER","kafka:9092")
         logger.info("kafka consumer connected")
         self.consumer = KafkaConsumer(
             topic,

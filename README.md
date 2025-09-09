@@ -109,7 +109,6 @@ mu'azins/
 ├── STT/
 │ ├── read_from_mongo.py
 │ ├── audio_to_text.py
-│ ├── update_elastic.py
 │ ├── main.py
 │ ├── Dockerfile
 │ └── requirements.txt

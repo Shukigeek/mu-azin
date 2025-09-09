@@ -1,5 +1,6 @@
 from handel_files.build_json import Json
 from kafka_pub_sub.pub.producer import Producer
+import os
 import wave
 from pathlib import Path
 from logger.logger import Logger
@@ -7,16 +8,17 @@ logger = Logger.get_logger()
 
 
 class Manager:
-    def __init__(self,topic="podcasts",path=None):
+    def __init__(self,topic=os.getenv("TOPIC","podcasts"),path=None):
         self.topic = topic
         self.producer = Producer()
         logger.info(f"initializing path by defaulter or inserted")
-        self.path = path or "C:/podcasts"
+        self.path = path or os.getenv("FILE_PATH","C:/podcasts")
         self.directory_path = Path(self.path)
     def produce_to_kafka(self):
         if self.path == "C:/podcasts":
-            for wav_file in self.directory_path.rglob('*.wav'):
+            for wav_file in self.directory_path.glob('*.wav'):
                 try:
+                    logger.info("data publish to kafka")
                     self.producer.publish_message(self.topic,Json(wav_file).return_json())
                 except wave.Error as e:
                     logger.error(f"  Error opening WAV file {wav_file}: {e}")
@@ -31,4 +33,8 @@ class Manager:
                 logger.error(f"path not valid: {e}")
                 return f"path not valid: {e}"
 
+
+if __name__ == '__main__':
+    for wav_file in Path("C:/podcasts").glob('*.wav'):
+        print(wav_file)
 

@@ -1,9 +1,9 @@
-from STT.update_elastic import UpdateElastic
+from STT.read_from_mongo import STT
 from logger.logger import Logger
 logger = Logger.get_logger()
 
 
 logger.info("starting app update elastic")
-update = UpdateElastic()
+update = STT()
 logger.info("updating elastic")
-update.update_elastic()
+update.speach_to_text()

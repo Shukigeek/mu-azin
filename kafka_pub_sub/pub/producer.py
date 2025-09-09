@@ -10,7 +10,7 @@ class Producer:
     def __init__(self):
         logger.info('Producer start')
         logger.info('kafka_broker = {}'.format(os.environ['KAFKA_BROKER']))
-        kafka_broker = os.getenv("KAFKA_BROKER")
+        kafka_broker = os.getenv("KAFKA_BROKER","kafka:9092")
 
         while True:
             try:
