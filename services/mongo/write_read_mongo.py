@@ -1,7 +1,7 @@
 from services.mongo.mongo_dal import Connection
 from services.logger.logger import Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(index="mongo-logs")
 import os
 
 

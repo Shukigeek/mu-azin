@@ -97,6 +97,24 @@ podcast if is a bds supported and hostile level and then writing it
 back to the index in elastic
 
 
+(now I did a calculation that let's say we have 
+3 - vary hostile words
+3 - less hostile words
+out of a 50 words podcast
+(so 6/53 is two times bigger than 3/53 )
+I'm added 3 in order not to be bigger than 100 % if all words are 
+very hostile)
+
+## endpoints
+
+``
+runs from docker file in endpoints dirctory
+``
+
+I gave the user a chance to use elastic
+by entering a word or sentence and 
+a list of podcast that have that 
+going to show from high score (matching) to low.
 
 
 

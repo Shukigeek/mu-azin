@@ -3,7 +3,7 @@ import os
 from elasticsearch import Elasticsearch
 from services.logger.logger import Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(index="elastic-logs")
 
 
 class ElasticBase:

@@ -1,7 +1,7 @@
 from handling_topics.consuming_topic import Manager
 from services.logger.logger import Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(index="handel-topic-logs")
 
 """
 creating a unique id based on the file name (hash)

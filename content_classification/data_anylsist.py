@@ -2,7 +2,7 @@ from content_classification.base64_decode import *
 import os
 from services.logger.logger import Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(index="analysis-logs")
 
 
 class AnalyzeText:
@@ -33,8 +33,8 @@ class AnalyzeText:
                 if sami_hostile == self.text[i:i + sami_hostile_len]:
                     count += 1
                     score += self.points
-        score *= (count / self.text_len)
-        return score
+        res = ((score+(score-count)) / (self.text_len+(score-count)))
+        return res * 100
 
     def is_bds(self):
         return self.bds_precent > self.high

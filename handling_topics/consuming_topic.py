@@ -6,7 +6,7 @@ from hashlib import sha256
 from bson.binary import Binary
 from services.logger.logger import Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(index="handel-topic-logs")
 
 
 class Manager:

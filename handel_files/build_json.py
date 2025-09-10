@@ -1,7 +1,7 @@
 from handel_files.metadata import MetaData
 from services.logger.logger import Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(index="handel-files-logs")
 
 
 class Json:

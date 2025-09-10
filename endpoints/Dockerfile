@@ -6,8 +6,8 @@ COPY endpoints/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-COPY endpoints app/endpoints
-COPY services/elsetic app/services/elastic
+COPY endpoints /app/endpoints
+COPY services/elastic /app/services/elastic
 
 
 CMD ["uvicorn", "endpoints.app:app", "--host", "0.0.0.0", "--port", "8005"]

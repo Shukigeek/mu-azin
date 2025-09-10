@@ -1,7 +1,7 @@
 from handel_files.sand_to_kafka import Manager
 from services.logger.logger import Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(index="handel-files-logs")
 
 # sanding data to kafka
 
