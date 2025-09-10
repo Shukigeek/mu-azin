@@ -39,7 +39,7 @@ class STT:
                 logger.info(f"consuming {self.topic} massage and updating elastic")
                 doc_id = event.value["id"]
                 text = self.speach_to_text(doc_id)
-                logger.info(f"5 new text words = {text.spilt()[:5]}")
+                logger.info(f"5 new text words = {text.split()[:5]}")
                 self.es.update_doc_by_id(doc_id, {"doc": {"metadata": {"text": text}}})
                 # updating topic in kafka what id in elastic have already the text
                 self.producer.publish_message(self.new_topic, {"id": doc_id})

@@ -20,7 +20,7 @@ class Manager:
                 try:
                     logger.info("adding new filed to elastic base un text hostility")
                     doc_id = event.value["id"]
-                    text = self.es.search_by_id(doc_id)["_source"]["meta data"]["text"]
+                    text = self.es.search_by_id(doc_id)["_source"]["metadata"]["text"]
                     logger.info(text)
                     analyzer = AnalyzeText(text)
                     logger.info(analyzer.bds_precent)

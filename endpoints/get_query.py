@@ -8,24 +8,24 @@ class GetQuerys:
     def __init__(self,query):
         self.es = ElasticBase()
         self.query = str(query)
-    def search_index_word(self,line="meta data.text"):
+    def search_index_word(self,line="metadata.text"):
         logger.info("collecting matching doc in elasticsearch")
         res = []
         for i in self.es.search_kay_word(line,self.query)["hits"]["hits"]:
             res.append(
                 {"score": i["_source"]["score"],
-                 "name": i["_source"]["meta data"]["name"],
-                 "text": i["_source"]["meta data"]["text"]}
+                 "name": i["_source"]["metadata"]["name"],
+                 "text": i["_source"]["metadata"]["text"]}
             )
         return res
-    def search_index_phrase(self,line="meta data.text"):
+    def search_index_phrase(self,line="metadata.text"):
         logger.info("collecting matching phrase in elasticsearch")
         res = []
         for i in self.es.search_sentence(line,self.query)["hits"]["hits"]:
             res.append(
                 {"score": i["_source"]["score"],
-                 "name": i["_source"]["meta data"]["name"],
-                 "text": i["_source"]["meta data"]["text"]}
+                 "name": i["_source"]["metadata"]["name"],
+                 "text": i["_source"]["metadata"]["text"]}
             )
         return res
     def results(self):
@@ -39,13 +39,13 @@ class GetQuerys:
         for i in self.es.search_kay_word(line,"True")["hits"]["hits"]:
             is_bds.append(
                 {"score": i["_source"]["score"],
-                 "name": i["_source"]["meta data"]["name"],
-                 "text": i["_source"]["meta data"]["text"]}
+                 "name": i["_source"]["metadata"]["name"],
+                 "text": i["_source"]["metadata"]["text"]}
             )
             not_bds = []
             for i in self.es.search_kay_word(line, "False")["hits"]["hits"]:
                 not_bds.append(
-                    {"name": i["_source"]["meta data"]["name"]}
+                    {"name": i["_source"]["metadata"]["name"]}
                 )
 
         return {"is_dbs":is_bds,"not_bds": not_bds}

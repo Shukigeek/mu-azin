@@ -5,11 +5,13 @@ from fastapi.templating import Jinja2Templates
 from endpoints.get_query import GetQuerys
 from services.logger.logger import Logger
 
+
+
 logger = Logger.get_logger(index="endpoint-logs")
 
 
 app = FastAPI()
-templates = Jinja2Templates(directory="../endpoints")
+templates = Jinja2Templates(directory="endpoints")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
@@ -24,8 +26,8 @@ async def process_word(request: Request, user_word: str = Form(...)):
     """
     Receives the word from the form and processes it.
     """
-    logger.info(f"Received word {user_word}")
-    processed_message = GetQuerys(request).results()
+
+    processed_message = GetQuerys(str(user_word)).results()
     return {"request": request, "message": processed_message}
 @app.get("/is_bds")
 async def read_root():
