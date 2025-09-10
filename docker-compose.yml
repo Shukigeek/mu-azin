@@ -10,6 +10,11 @@ services:
       - "9200:9200"
     networks:
       - final-test
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f -X GET 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=1s' || exit 1" ]
+      interval: 10s
+      timeout: 10s
+      retries: 12
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.15.0
@@ -114,6 +119,40 @@ services:
       - handel_topics
     networks:
       - final-test
+
+
+  content_classification:
+    build:
+      context: .
+      dockerfile: content_classification/Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - ES_HOSTS=elasticsearch
+      - POINTS=1.7
+      - HIGH_SCORE_THREAT_LEVEL=4
+      - MEDIUM_SCORE_THREAT_LEVEL=2
+    ports:
+      - "8004:8004"
+    depends_on:
+      - kafka
+      - elasticsearch
+      - stt
+    networks:
+      - final-test
+
+  endpoints:
+    build:
+      context: .
+      dockerfile: endpoints/Dockerfile
+    environment:
+      - ES_HOSTS=elasticsearch
+    ports:
+      - "8005:8005"
+    depends_on:
+      - elasticsearch
+    networks:
+      - final-test
+
 
 volumes:
   mongo_data:

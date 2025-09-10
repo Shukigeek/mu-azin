@@ -1,28 +1,30 @@
-from elastic.elastic_base import ElasticBase
+from services.elastic.elastic_base import ElasticBase
 from content_classification.data_analsist import AnalyzeText
+from services.kafka_pub_sub.sub.consumer import Consumer
+from services.logger.logger import Logger
 
+logger = Logger.get_logger()
 
 
 class Manager:
-    def __init__(self):
+    def __init__(self, topic="text"):
+        self.topic = topic
+        self.consumer = Consumer(self.topic)
         self.es = ElasticBase()
-        self.analyzer = AnalyzeText()
 
-    def add_field_bulk(self, docs, field_name, func):
-        actions = []
-        for doc in docs:
-            doc_id = doc["_id"]
-            text = doc["_source"]["text"]
-            new_value = func(text)
-            actions.append({
-                "_op_type": "update",
-                "_index": self.es.index,
-                "_id": doc_id,
-                "doc": {field_name: new_value}
-            })
-        self.es.es.bulk_update(actions)
     def add_fields(self):
-        data = self.es.return_all_docs()
-        self.add_field_bulk(data,"bds_precent",self.analyzer.bds_precent)
-        self.add_field_bulk(data,"is_bds",self.analyzer.is_bds())
-        self.add_field_bulk(data,"bds_threat_level",self.analyzer.bds_threat_level())
+        logger.info("getting id from topic text on kafka")
+        for event in self.consumer.consumer:
+            logger.info(f"{event.topics}")
+            if event.topic == self.topic:
+                try:
+                    logger.info("adding new filed to elastic base un text hostility")
+                    doc_id = event.value["id"]
+                    text = self.es.search_by_id(doc_id)["_source"]["meta data"]["text"]
+                    analyzer = AnalyzeText(text)
+                    self.es.update_doc_by_id(doc_id, {"doc": {"metadata": {"bds_precent": analyzer.bds_precent}}})
+                    self.es.update_doc_by_id(doc_id, {"doc": {"metadata": {"is_bds": analyzer.is_bds()}}})
+                    self.es.update_doc_by_id(doc_id,
+                                             {"doc": {"metadata": {"bds_threat_level": analyzer.bds_threat_level()}}})
+                except Exception as e:
+                    logger.error(f"cannot update elastic: {e}")

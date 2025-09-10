@@ -1,5 +1,6 @@
 from content_classification.manager import Manager
-from logger.logger import Logger
+from services.logger.logger import Logger
+
 logger = Logger.get_logger()
 
 m = Manager()

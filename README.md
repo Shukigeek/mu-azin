@@ -1,6 +1,6 @@
-## mu'azin  project
+# mu'azin  project
 
-# handel files
+## handel files
 
 ``
 runs from the docker file in handel files directory
@@ -17,7 +17,7 @@ in a specific topic
 all of that is warp in a 1 container by docker
 
 
-# handling topics
+## handling topics
 ``
 runs from docker file in handling topics dirctory
 ``
@@ -57,7 +57,10 @@ runs from the docker file in stt dirctory
 
 the app is a server runs by docker container 
 thet takes all id + data (bytes) 
-from mongodb and converting it to a readable text 
+from mongodb by sanding it from mongo
+in kafka topic that we going to have trak what is already 
+inserted to mongo 
+and converting each doc binary-text to a readable text 
 than updating elastic search with another filed to
 by index (this is of course the must important filed)
 by its unique ID
@@ -76,6 +79,24 @@ mongodb in vary high speed past
 and I can convert all audio to get the text
 after a while that all is working
 this is inspired by the Asynchrony idea!!
+all the data flow is by kafka first to make sure 
+that we're not losing anything and not doing the same 
+operation un the same data twice
+
+## content_classification
+
+
+``
+run from the docker file in content_classsifiction dirctory
+``
+
+this app is consuming id from kafka of all the 
+docs in elastic that have already a text box updated in them
+and by doing calculation on the data we conclude each 
+podcast if is a bds supported and hostile level and then writing it 
+back to the index in elastic
+
+
 
 
 

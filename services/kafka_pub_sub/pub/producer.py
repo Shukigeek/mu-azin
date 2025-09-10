@@ -3,14 +3,16 @@ from kafka.errors import NoBrokersAvailable
 import json
 import time
 import os
-from logger.logger import Logger
+from services.logger.logger import Logger
+
 logger = Logger.get_logger()
+
 
 class Producer:
     def __init__(self):
         logger.info('Producer start')
         logger.info('kafka_broker = {}'.format(os.environ['KAFKA_BROKER']))
-        kafka_broker = os.getenv("KAFKA_BROKER","kafka:9092")
+        kafka_broker = os.getenv("KAFKA_BROKER", "kafka:9092")
 
         while True:
             try:
@@ -30,5 +32,3 @@ class Producer:
         self.producer.send(topic, message)
         logger.info("Message sent")
         self.producer.flush()
-
-

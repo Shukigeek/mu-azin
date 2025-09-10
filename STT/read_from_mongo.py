@@ -1,33 +1,34 @@
-from kafka_pub_sub.pub.producer import Producer
-from kafka_pub_sub.sub.consumer import Consumer
+from services.kafka_pub_sub.pub.producer import Producer
+from services.kafka_pub_sub.sub.consumer import Consumer
 from STT.audio_to_text import AudioToText
-from mongo.write_read_mongo import AudioToMongo
-from elastic.elastic_base import ElasticBase
-from logger.logger import Logger
+from services.mongo.write_read_mongo import Mongo
+from services.elastic.elastic_base import ElasticBase
+from services.logger.logger import Logger
+
 logger = Logger.get_logger()
 from io import BytesIO
 
 
-
 class STT:
-    def __init__(self,topic="audio-to-text"):
+    def __init__(self, topic="audio-to-text", new_topic="text"):
         self.es = ElasticBase()
-        self.mongo = AudioToMongo()
+        self.mongo = Mongo()
         self.topic = topic
+        self.new_topic = new_topic
         self.producer = Producer()
         self.consumer = Consumer(topic)
 
-    def speach_to_text(self):
+    def speach_to_text(self, doc_id):
         try:
-            for record in self.mongo.read_all_from_mongo():
-                id = record["_id"]
-                data = record["data"]
-                # refer to it like a file
-                speach = AudioToText(BytesIO(data))
-                logger.info("converting audio to text")
-                text = speach.convert_audio()
-                logger.info(f"publishing {self.topic} to kafka")
-                self.producer.publish_message(self.topic,{"text":text})
+            doc = self.mongo.read_one_by_id(doc_id)
+            data = doc["data"]
+
+            # refer to it like a file
+            speach = AudioToText(BytesIO(data))
+            logger.info("converting audio to text")
+            text = speach.convert_audio()
+            logger.info(f"publishing {self.topic} to kafka")
+            return text
 
         except Exception as e:
             logger.error(f"error fetching data from mongodb : {e}")
@@ -36,8 +37,8 @@ class STT:
         for event in self.consumer.consumer:
             if event.topic == self.topic:
                 logger.info(f"consuming {self.topic} massage and updating elastic")
-                self.es.update_doc_by_id(id, {"doc": {"metadata":{"text": event.value["text"]}}})
-
-
-
-
+                doc_id = event.value["id"]
+                text = self.speach_to_text(doc_id)
+                self.es.update_doc_by_id(doc_id, {"doc": {"metadata": {"text": text}}})
+                # updating topic in kafka what id in elastic have already the text
+                self.producer.publish_message(self.new_topic, {"id": doc_id})
