@@ -1,2 +1,2 @@
 elasticsearch~=8.15.0
-base64
+kafka-python~=2.2.15

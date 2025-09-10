@@ -6,8 +6,9 @@ COPY content_classification/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY content_classification /app/content_classification
-COPY elastic /app/elastic
-COPY logger /app/logger
+COPY services/elastic /app/services/elastic
+COPY services/logger /app/services/logger
+COPY services/kafka_pub_sub /app/services/kafka_pub_sub
 
 
-CMD ["python","-m", "handel_files.main"]
+CMD ["python","-m", "content_classification.main"]

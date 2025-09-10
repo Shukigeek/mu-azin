@@ -1,10 +1,10 @@
 from handling_topics.consuming_topic import Manager
-from logger.logger import Logger
+from services.logger.logger import Logger
+
 logger = Logger.get_logger()
 
 """
 creating a unique id based on the file name (hash)
-
 and dividing it to two parts 
 the metadata is sand it to index in elasticsearch 
 and the path + the actual audio data it sands to
