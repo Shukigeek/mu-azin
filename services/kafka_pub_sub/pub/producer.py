@@ -5,7 +5,7 @@ import time
 import os
 from services.logger.logger import Logger
 
-logger = Logger.get_logger()
+logger = Logger.get_logger(index="kafka-logs")
 
 
 class Producer:

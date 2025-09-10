@@ -24,7 +24,9 @@ services:
     ports:
       - "5601:5601"
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
+
     networks:
       - final-test
 
@@ -72,7 +74,8 @@ services:
     ports:
       - "8001:8001"
     depends_on:
-      - kafka
+      elasticsearch:
+        condition: service_healthy
     networks:
       - final-test
 
@@ -91,9 +94,8 @@ services:
     ports:
       - "8002:8002"
     depends_on:
-      - kafka
-      - mongodb
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     networks:
       - final-test
     volumes:
@@ -115,8 +117,8 @@ services:
       - MONGO_AUTH_DB=admin
       - ES_HOSTS=elasticsearch
     depends_on:
-      - handel_files
-      - handel_topics
+      elasticsearch:
+        condition: service_healthy
     networks:
       - final-test
 
@@ -128,15 +130,14 @@ services:
     environment:
       - KAFKA_BROKER=kafka:9092
       - ES_HOSTS=elasticsearch
-      - POINTS=1.7
-      - HIGH_SCORE_THREAT_LEVEL=4
-      - MEDIUM_SCORE_THREAT_LEVEL=2
+      - POINTS=1
+      - HIGH_SCORE_THREAT_LEVEL=15
+      - MEDIUM_SCORE_THREAT_LEVEL=6
     ports:
       - "8004:8004"
     depends_on:
-      - kafka
-      - elasticsearch
-      - stt
+     elasticsearch:
+      condition: service_healthy
     networks:
       - final-test
 
@@ -149,7 +150,8 @@ services:
     ports:
       - "8005:8005"
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     networks:
       - final-test
 
